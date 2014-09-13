@@ -8,7 +8,7 @@ Example use in a playbook.
 - name: Install Docker
   hosts: docker
   roles:
-    - jamesdbloom.ansible-install-docker
+    - jamesdbloom.install-docker
 ```
 
 Role Variables
