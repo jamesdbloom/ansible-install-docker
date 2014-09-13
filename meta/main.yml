@@ -1,0 +1,13 @@
+---
+galaxy_info:
+  author: James Bloom
+  description: Install Docker
+  license: Apache v2.0
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - 14.04
+
+  categories:
+    - system

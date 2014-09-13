@@ -1,0 +1,24 @@
+---
+- name: Install (or update) docker.io
+  apt: 
+    name: docker.io 
+    state: latest
+    update_cache: yes
+  when: "ansible_distribution_version == '14.04'"
+
+- name: Link docker binaries
+  file: 
+    src: /usr/bin/docker.io 
+    dest: /usr/local/bin/docker 
+    owner: root 
+    group: root 
+    state: link
+  when: "ansible_distribution_version == '14.04'"
+
+- name: Enable bash completion
+  command: sed -i '$acomplete -F _docker docker' /etc/bash_completion.d/docker.io
+  when: "ansible_distribution_version == '14.04'"
+
+- name: Expose docker host
+  command: sed -i 's/#DOCKER_OPTS.*/DOCKER_OPTS="-H unix:\/\/ -H tcp:\/\/0.0.0.0:2375"/g' /etc/default/docker.io
+  when: "(ansible_distribution_version == '14.04') and (export_docker_host == true)"
