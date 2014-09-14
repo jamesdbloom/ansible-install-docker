@@ -20,5 +20,6 @@
   when: "ansible_distribution_version == '14.04'"
 
 - name: Expose docker host
-  command: sed -i 's/#DOCKER_OPTS.*/DOCKER_OPTS="-H unix:\/\/ -H tcp:\/\/0.0.0.0:2375"/g' /etc/default/docker.io
+  command: sed -i 's/#DOCKER_OPTS.*/DOCKER_OPTS="-H unix:\/\/ -H tcp:\/\/{{ docker_host_ip }}:{{ docker_host_port }}"/g' /etc/default/docker.io
+  notify: restart docker
   when: "(ansible_distribution_version == '14.04') and (export_docker_host == true)"
