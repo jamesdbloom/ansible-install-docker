@@ -15,11 +15,15 @@
     state: link
   when: "ansible_distribution_version == '14.04'"
 
+- name: Check if docker installed
+  stat: path=/etc/default/docker.io
+  register: docker_installed
+
 - name: Enable bash completion
   command: sed -i '$acomplete -F _docker docker' /etc/bash_completion.d/docker.io
-  when: "ansible_distribution_version == '14.04'"
+  when: docker_installed
 
 - name: Expose docker host
-  command: sed -i 's/#DOCKER_OPTS.*/DOCKER_OPTS="-H unix:\/\/ -H tcp:\/\/{{ docker_host_ip }}:{{ docker_host_port }}"/g' /etc/default/docker.io
-  notify: restart docker
-  when: "(ansible_distribution_version == '14.04') and (export_docker_host == true)"
+  lineinfile: dest=/etc/default/docker.io regexp="^#DOCKER_OPTS.*" line="DOCKER_OPTS=\"-H unix:\/\/ -H tcp:\/\/{{ docker_host_ip }}:{{ docker_host_port }}\""
+  notify: "restart docker"
+  when: "docker_installed and export_docker_host"
