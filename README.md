@@ -5,7 +5,7 @@ Installs Docker on Ubuntu 12.04 and exposes Docker Host
 
 Install role:
 ```bash
-ansible-galaxy install jamesdbloom.install-docker --force
+sudo ansible-galaxy install jamesdbloom.install-docker --force
 ```
 
 Use role in playbook:

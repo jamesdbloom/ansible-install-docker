@@ -20,10 +20,16 @@
   register: docker_installed
 
 - name: Enable bash completion
-  command: sed -i '$acomplete -F _docker docker' /etc/bash_completion.d/docker.io
+  lineinfile:
+    dest=/etc/bash_completion.d/docker.io
+    regexp='THAT STRING WILL NOT BE FOUND'
+    line="complete -F _docker docker"
   when: docker_installed
 
 - name: Expose docker host
-  lineinfile: dest=/etc/default/docker.io regexp="^#DOCKER_OPTS.*" line="DOCKER_OPTS=\"-H unix:\/\/ -H tcp:\/\/{{ docker_host_ip }}:{{ docker_host_port }}\""
+  lineinfile: 
+    dest=/etc/default/docker.io
+    regexp="^#DOCKER_OPTS.*"
+    line="DOCKER_OPTS=\"-H unix:// -H tcp://{{ docker_host_ip }}:{{ docker_host_port }}\""
   notify: "restart docker"
   when: "docker_installed and export_docker_host"
