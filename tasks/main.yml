@@ -16,7 +16,7 @@
   when: "ansible_distribution_version == '14.04'"
 
 - name: Check if docker installed
-  stat: path=/etc/default/docker.io
+  command: /usr/bin/test -e /etc/default/docker.io
   register: docker_installed
 
 - name: Enable bash completion
