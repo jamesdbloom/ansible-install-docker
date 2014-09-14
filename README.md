@@ -46,4 +46,4 @@ Apache v2.0
 Maintainers
 -------
 
-* [James D Bloom](http://blog.jamesdbloom.com)
+[James D Bloom](http://blog.jamesdbloom.com)
