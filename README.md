@@ -1,7 +1,7 @@
 Ansible Docker Install Role
 ===========================
 
-Installs Docker on Ubuntu 12.04 and exposes Docker Host
+Installs Docker on Ubuntu 14.04 and exposes Docker Host
 
 Install role:
 ```bash
