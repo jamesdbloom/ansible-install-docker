@@ -1,34 +1,34 @@
 ---
 - name: Install (or update) docker.io
-  apt: 
-    name: docker.io 
+  apt:
+    name: docker.io
     state: latest
     update_cache: yes
   when: "ansible_distribution_version == '14.04'"
 
 - name: Link docker binaries
-  file: 
-    src: /usr/bin/docker.io 
-    dest: /usr/local/bin/docker 
-    owner: root 
-    group: root 
+  file:
+    src: /usr/bin/docker.io
+    dest: /usr/local/bin/docker
+    owner: root
+    group: root
     state: link
   when: "ansible_distribution_version == '14.04'"
 
 - name: Check if docker installed
-  command: /usr/bin/test -e /etc/default/docker.io
+  command: /usr/bin/test -e /etc/default/docker
   register: docker_installed
 
 - name: Enable bash completion
   lineinfile:
-    dest=/etc/bash_completion.d/docker.io
+    dest=/etc/bash_completion.d/docker
     regexp='THAT STRING WILL NOT BE FOUND'
     line="complete -F _docker docker"
   when: docker_installed
 
 - name: Expose docker host
-  lineinfile: 
-    dest=/etc/default/docker.io
+  lineinfile:
+    dest=/etc/default/docker
     regexp="^#DOCKER_OPTS.*"
     line="DOCKER_OPTS=\"-H unix:// -H tcp://{{ docker_host_ip }}:{{ docker_host_port }}\""
   notify: "restart docker"
